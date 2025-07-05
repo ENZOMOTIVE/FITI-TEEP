@@ -4,7 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.fiti_teep.ui.Screens.HomeScreen
+import com.example.fiti_teep.ui.screens.ChatScreen
+import com.example.fiti_teep.ui.screens.HomeScreen
 
 
 @Composable
@@ -12,12 +13,15 @@ fun NavGraph(navController: NavHostController){
 
     NavHost(
         navController = navController,
-        startDestination = "home"
+        startDestination = Routes.HOME
     ) {
 
+        composable(Routes.HOME){
+            HomeScreen(navController)
+        }
 
-        composable("home"){
-            HomeScreen()
+        composable(Routes.CHAT){
+            ChatScreen()
         }
     }
 
