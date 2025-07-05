@@ -66,4 +66,8 @@ dependencies {
 
     // Navigation Testing
     androidTestImplementation(libs.navigation.testing)
+
+    //Koil Library
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
 }
