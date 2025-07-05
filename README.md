@@ -2,12 +2,17 @@
 
 Preventive Healthcare Android App
 
-### Home Screen
-This will be the entry point for the user.
+### Screenshots
 
-<img src="Docs/HomeScreen.png" alt="Home Screen" width="502"/>
-
-### Chat Screen
-The chat screen where the user will interact with our fine-tuned LLM.
-
-<img src="Docs/ChatScreen.png" alt="Chat Screen" width="500"/>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="Docs/HomeScreen.png" alt="Home Screen" width="200"/><br/>
+      <b>Home Screen</b>
+    </td>
+    <td align="center">
+      <img src="Docs/ChatScreen.png" alt="Chat Screen" width="200"/><br/>
+      <b>Chat Screen</b>
+    </td>
+  </tr>
+</table>
