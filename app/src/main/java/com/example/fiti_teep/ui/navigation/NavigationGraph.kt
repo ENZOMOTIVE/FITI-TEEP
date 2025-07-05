@@ -1,5 +1,6 @@
 package com.example.fiti_teep.ui.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -9,7 +10,7 @@ import com.example.fiti_teep.ui.screens.HomeScreen
 
 
 @Composable
-fun NavGraph(navController: NavHostController){
+fun NavGraph(navController: NavHostController,paddingValues: PaddingValues){
 
     NavHost(
         navController = navController,
@@ -17,11 +18,11 @@ fun NavGraph(navController: NavHostController){
     ) {
 
         composable(Routes.HOME){
-            HomeScreen(navController)
+            HomeScreen(navController, paddingValues)
         }
 
         composable(Routes.CHAT){
-            ChatScreen()
+            ChatScreen(paddingValues)
         }
     }
 
