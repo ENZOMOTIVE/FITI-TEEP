@@ -9,6 +9,9 @@ lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.09.00"
 
+# Navigation
+nav_version = "2.9.1"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -24,6 +27,14 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+
+#Navigation
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "nav_version" }
+navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "nav_version" }
+navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "nav_version" }
+navigation-dynamic-features-fragment = { module = "androidx.navigation:navigation-dynamic-features-fragment", version.ref = "nav_version" }
+navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "nav_version" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
