@@ -1,9 +1,11 @@
 package com.example.fiti_teep.ui.screens
 
+import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,25 +38,46 @@ import coil.compose.rememberAsyncImagePainter
 
 // To handle both Image and Texts
 sealed class ChatMessage{
-    data class Text(val message: String) : ChatMessage()
-    data class Image(val uri: android.net.Uri) : ChatMessage()
+
+    // This handles both Image and string in a Single storage unit
+    data class UserMessage(val text: String?, val imageUri: Uri ?) : ChatMessage()
+
+    // Output Message returned from Ai
+    data class AIMessage(val text: String): ChatMessage()
+
+    //Handle Text and Image Separately
+    //data class Text(val message: String) : ChatMessage()
+    //data class Image(val uri: android.net.Uri) : ChatMessage()
 }
+
+// Holding class for the input Storage
+data class UserInput (
+    val text: String ? = null,
+    val imageUri: Uri? =null
+)
 
 @Composable
 fun ChatScreen(paddingValues: PaddingValues) {
 
 
-    // keeps Text the input of the user
-    var messageText by remember { mutableStateOf("") }
+    //Handles temporary  input single Unit
+    var currentInput by remember { mutableStateOf(UserInput()) }
 
+
+
+
+
+    //Handles Temporary input storage separate
+    // keeps Text the input of the user
+    //var messageText by remember { mutableStateOf("") }
     // Image input
-    var selectedImageUri by remember { mutableStateOf<android.net.Uri?>(null) }
+    //var selectedImageUri by remember { mutableStateOf<android.net.Uri?>(null) }
 
 
     // Container to store the messages
     val chatMessages = remember {
         mutableStateListOf<ChatMessage>(
-            ChatMessage.Text("Hi, how can I help you today?")
+            ChatMessage.AIMessage("Hi, how can I help you today?")
         )
     }
 
@@ -63,7 +86,8 @@ fun ChatScreen(paddingValues: PaddingValues) {
         ActivityResultContracts.PickVisualMedia()
     ) { uri ->
         if (uri != null) {
-            selectedImageUri = uri
+            //selectedImageUri = uri
+            currentInput = currentInput.copy(imageUri = uri)
             Log.d("PhotoPicker", "Selected URI: $uri")
         } else {
             Log.d("PhotoPicker", "No media selected")
@@ -89,33 +113,46 @@ fun ChatScreen(paddingValues: PaddingValues) {
             ) {
                 items(chatMessages) { message ->
                     when (message) {
-                        is ChatMessage.Text -> {
+                        is ChatMessage.AIMessage -> {
                             Text(
-                                text = message.message,
+                                text = "AI: ${message.text}",
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(8.dp),
-                                color = Color.Black
+                                color = Color.Gray
                             )
                         }
 
-                        is ChatMessage.Image -> {
-                            androidx.compose.foundation.Image(
-                                painter = rememberAsyncImagePainter(message.uri),
-                                contentDescription = "Attached Image",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(8.dp)
-                                    .height(200.dp)
-                            )
+                        is ChatMessage.UserMessage -> {
+                            Column(modifier = Modifier.padding(8.dp)) {
+                                message.text?.let {
+                                    Text(
+                                        text = "You: $it",
+                                        modifier = Modifier.fillMaxWidth(),
+                                        color = Color.Black
+                                    )
+                                }
+                                message.imageUri?.let {
+                                    Image(
+                                        painter = rememberAsyncImagePainter(it),
+                                        contentDescription = "Attached Image",
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(top = 4.dp)
+                                            .height(200.dp)
+                                    )
+                                }
+                            }
                         }
                     }
                 }
+
             }
         }
 
-        selectedImageUri?.let { uri ->
-            androidx.compose.foundation.Image(
+        // Preview of the selected Image
+        currentInput.imageUri?.let{ uri ->
+            Image(
                 painter = rememberAsyncImagePainter(uri),
                 contentDescription = "Selected Image Preview",
                 modifier = Modifier
@@ -145,26 +182,28 @@ fun ChatScreen(paddingValues: PaddingValues) {
                     }
 
                     TextField(
-                        value = messageText,
-                        onValueChange = { messageText = it },
+                        value = currentInput.text ?: "",
+                        onValueChange = { currentInput = currentInput.copy(text = it) },
                         modifier = Modifier.weight(1f),
                         placeholder = { Text("Type a message...") },
                         maxLines = 3
                     )
 
+                    // Send User Input
                     IconButton(
                         onClick = {
-                            if (selectedImageUri != null) {
-                                chatMessages.add(ChatMessage.Image(selectedImageUri!!))
-                                selectedImageUri = null // clear preview after sending
-                            }
-
-                            if (messageText.isNotBlank()) {
-                                chatMessages.add(ChatMessage.Text("You: $messageText"))
-                                messageText = ""
+                            if (!currentInput.text.isNullOrBlank() || currentInput.imageUri != null) {
+                                chatMessages.add(
+                                    ChatMessage.UserMessage(
+                                        text = currentInput.text,
+                                        imageUri = currentInput.imageUri
+                                    )
+                                )
+                                currentInput = UserInput()
                             }
                         }
-                    ) {
+                    )
+                    {
                         Icon(Icons.Default.Send, contentDescription = "Send")
                     }
 
