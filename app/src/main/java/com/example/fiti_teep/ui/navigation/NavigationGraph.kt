@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.fiti_teep.ui.screens.Chat.ChatScreen
+import com.example.fiti_teep.ui.screens.chat.ChatScreen
 import com.example.fiti_teep.ui.screens.HomeScreen
 
 

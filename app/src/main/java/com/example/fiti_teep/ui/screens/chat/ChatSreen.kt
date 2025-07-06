@@ -1,4 +1,4 @@
-package com.example.fiti_teep.ui.screens.Chat
+package com.example.fiti_teep.ui.screens.chat
 
 import android.net.Uri
 import android.util.Log
@@ -6,7 +6,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

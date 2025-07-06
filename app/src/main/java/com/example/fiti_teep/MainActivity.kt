@@ -5,8 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import com.example.fiti_teep.ui.navigation.NavGraph
@@ -14,6 +18,7 @@ import com.example.fiti_teep.ui.theme.FititeepTheme
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.example.fiti_teep.R
 
 class MainActivity : ComponentActivity() {
@@ -41,6 +46,18 @@ class MainActivity : ComponentActivity() {
                                     painter = painterResource(id = R.drawable.ic_app_logo_test),
                                     contentDescription = "App Logo"
                                 )
+                            },
+                            actions = {
+                                IconButton(onClick = {
+                                    // TODO: Navigate to notifications screen or show dialog
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Notifications,
+                                        contentDescription = "Notifications",
+                                        tint = Color.White,
+                                        modifier = Modifier.size(33.dp)
+                                    )
+                                }
                             },
                             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                                 containerColor = Color(0xFF00BF63),
