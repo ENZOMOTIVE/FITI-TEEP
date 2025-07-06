@@ -1,4 +1,4 @@
-package com.example.fiti_teep.ui.screens
+package com.example.fiti_teep.ui.screens.Chat
 
 import android.net.Uri
 import android.util.Log
@@ -6,6 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -59,8 +61,7 @@ data class UserInput (
 @Composable
 fun ChatScreen(paddingValues: PaddingValues) {
 
-
-    //Handles temporary  input single Unit
+//Handles temporary  input single Unit
     var currentInput by remember { mutableStateOf(UserInput()) }
 
 
@@ -80,6 +81,7 @@ fun ChatScreen(paddingValues: PaddingValues) {
             ChatMessage.AIMessage("Hi, how can I help you today?")
         )
     }
+
 
     // Photo Picker
     val pickMedia = rememberLauncherForActivityResult(
@@ -180,14 +182,22 @@ fun ChatScreen(paddingValues: PaddingValues) {
                     }) {
                         Icon(Icons.Default.Add, contentDescription = "Attach")
                     }
-
                     TextField(
                         value = currentInput.text ?: "",
                         onValueChange = { currentInput = currentInput.copy(text = it) },
                         modifier = Modifier.weight(1f),
                         placeholder = { Text("Type a message...") },
-                        maxLines = 3
+                        maxLines = 3,
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color(0xFFB2F5D3),
+                            unfocusedContainerColor = Color.LightGray,
+                            cursorColor = Color(0xFF00BF63),
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent
+                        )
                     )
+
+
 
                     // Send User Input
                     IconButton(
