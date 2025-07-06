@@ -1,9 +1,22 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     kotlin("plugin.serialization") version "2.0.21"
 }
+
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        load(FileInputStream(file))
+    }
+}
+
+val openAiKey = localProperties.getProperty("OPENAI_API_KEY") ?: ""
+
 
 android {
     namespace = "com.example.fiti_teep"
@@ -17,7 +30,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "OPENAI_API_KEY", "\"$openAiKey\"")
     }
+
+
+
 
     buildTypes {
         release {
@@ -37,6 +55,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -69,5 +88,12 @@ dependencies {
 
     //Koil Library
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+    //okhttp
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+
+
+
 
 }

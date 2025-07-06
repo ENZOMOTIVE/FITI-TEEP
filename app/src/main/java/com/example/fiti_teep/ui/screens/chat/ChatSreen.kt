@@ -36,6 +36,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.example.fiti_teep.BuildConfig
+import com.example.fiti_teep.network.sendMessageAI
+
 
 // To handle both Image and Texts
 sealed class ChatMessage{
@@ -56,6 +59,7 @@ data class UserInput (
     val text: String ? = null,
     val imageUri: Uri? =null
 )
+
 
 @Composable
 fun ChatScreen(paddingValues: PaddingValues) {
@@ -208,7 +212,24 @@ fun ChatScreen(paddingValues: PaddingValues) {
                                         imageUri = currentInput.imageUri
                                     )
                                 )
+
+                                // Store the text only message to send to LLM
+                                val userText = currentInput.text ?: ""
+                                //Clear the Input
                                 currentInput = UserInput()
+
+
+                                sendMessageAI(
+                                    userMessageInput =  userText,
+                                    apiKey =  BuildConfig.OPENAI_API_KEY,
+                                    //AI message directly added to chat container
+                                    onResult = { aiReply ->
+                                        chatMessages.add(ChatMessage.AIMessage(aiReply))
+                                    },
+                                    onError = { error ->
+                                        chatMessages.add(ChatMessage.AIMessage("Error: $error"))
+                                    }
+                                )
                             }
                         }
                     )
