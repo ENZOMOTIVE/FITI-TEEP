@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.fiti_teep.R
+import com.example.fiti_teep.ui.screens.notification.NotificationDropdown
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -50,16 +51,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             },
                             actions = {
-                                IconButton(onClick = {
-                                    // TODO: Navigate to notifications screen or show dialog
-                                }) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Notifications,
-                                        contentDescription = "Notifications",
-                                        tint = Color.White,
-                                        modifier = Modifier.size(33.dp)
-                                    )
-                                }
+                              NotificationDropdown()
                             },
                             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                                 containerColor = Color(0xFF00BF63),

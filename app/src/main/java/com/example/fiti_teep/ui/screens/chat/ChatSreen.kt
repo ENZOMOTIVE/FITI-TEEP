@@ -69,10 +69,7 @@ fun ChatScreen(paddingValues: PaddingValues) {
 //Handles temporary  input single Unit
     var currentInput by remember { mutableStateOf(UserInput()) }
 
-
     val context = LocalContext.current
-
-
 
     //Handles Temporary input storage separate
     // keeps Text the input of the user
