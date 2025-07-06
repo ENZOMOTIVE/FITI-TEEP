@@ -11,3 +11,6 @@ implementation(libs.navigation.dynamic.features.fragment)
 # Test
 androidTestImplementation(libs.navigation.testing)
 
+# BottomNavBar
+
+For the Bottom NavBar Separate Routing class has been defined

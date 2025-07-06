@@ -7,11 +7,11 @@ Preventive Healthcare Android App
 <table align="center">
   <tr>
     <td align="center">
-      <img src="Docs/HomeScreen.png" alt="Home Screen" width="200"/><br/>
+      <img src="Docs/Proof-of-Work/UpdatedHomeScreen.png" alt="Home Screen" width="200"/><br/>
       <b>Home Screen</b>
     </td>
     <td align="center">
-      <img src="Docs/ChatScreen.png" alt="Chat Screen" width="200"/><br/>
+      <img src="Docs/Proof-of-Work/UpdatedChatScreen.png" alt="Chat Screen" width="200"/><br/>
       <b>Chat Screen</b>
     </td>
   </tr>

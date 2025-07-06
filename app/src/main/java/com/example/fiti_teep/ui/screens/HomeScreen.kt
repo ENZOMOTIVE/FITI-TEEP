@@ -50,20 +50,7 @@ fun HomeScreen(navController: NavController, paddingValues: PaddingValues) {
                 .padding(top = 80.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Chat With our AI",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Button(
-                onClick = { navController.navigate(Routes.CHAT) },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00BF63))
-            ) {
-                Text(text = "Chat Room")
-            }
+            Text(text = "add Other Functionalities")
         }
     }
 }

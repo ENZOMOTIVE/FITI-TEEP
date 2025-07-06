@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
@@ -19,7 +20,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.fiti_teep.R
+import com.example.fiti_teep.ui.components.bottomNavigation.BottomNavigationBar
+import com.example.fiti_teep.ui.navigation.bottom_navigation_Items
 import com.example.fiti_teep.ui.screens.notification.NotificationDropdown
 
 class MainActivity : ComponentActivity() {
@@ -33,6 +37,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             FititeepTheme {
                 val navController = rememberNavController()
+
+                val currentBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentRoute = currentBackStackEntry?.destination?.route
 
                 Scaffold(
                     topBar = {
@@ -57,6 +64,13 @@ class MainActivity : ComponentActivity() {
                                 containerColor = Color(0xFF00BF63),
                                 titleContentColor = Color.White
                             )
+                        )
+                    },
+                    bottomBar = {
+                        BottomNavigationBar(
+                            navController = navController,
+                            items = bottom_navigation_Items,
+                            currentRoute = currentRoute
                         )
                     },
                     containerColor = Color.White
