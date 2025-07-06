@@ -2,7 +2,9 @@ package com.example.fiti_teep.network
 
 
 
+import android.content.Context
 import android.util.Log
+import com.example.fiti_teep.ui.screens.chat.UserInput
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,24 +13,62 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import android.util.Base64
 
 
 fun sendMessageAI(
-    userMessageInput: String,
+    userMessageInput: UserInput,
+    context: Context,
     apiKey: String,
     onResult: (String) -> Unit,
     onError: (String) -> Unit
 ) {
     val client = OkHttpClient()
 
-    val jsonBody = JSONObject().apply {
-        put("model", "gpt-3.5-turbo")
-        put("messages", JSONArray().apply {
-            put(JSONObject().apply {
-                put("role", "user")
-                put("content", userMessageInput)
-            })
+    val messages = JSONArray()
+
+    val contentList = JSONArray()
+
+    // Add text if available
+    userMessageInput.text?.let { text ->
+        contentList.put(JSONObject().apply {
+            put("type", "text")
+            put("text", text)
         })
+    }
+
+    // Add image if available
+    userMessageInput.imageUri?.let { uri ->
+        try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val imageBytes = inputStream?.readBytes()
+            inputStream?.close()
+
+            if (imageBytes != null) {
+                val base64Image = Base64.encodeToString(imageBytes, Base64.NO_WRAP)
+                contentList.put(JSONObject().apply {
+                    put("type", "image_url")
+                    put("image_url", JSONObject().apply {
+                        put("url", "data:image/jpeg;base64,$base64Image")
+                    })
+                })
+            }
+        } catch (e: Exception) {
+            onError("Image encoding failed: ${e.message}")
+            return
+        }
+    }
+
+    // Wrap user message
+    messages.put(JSONObject().apply {
+        put("role", "user")
+        put("content", contentList)
+    })
+
+    val jsonBody = JSONObject().apply {
+        put("model", "gpt-4o")
+        put("messages", messages)
+        put("max_tokens", 300)
     }
 
     val request = Request.Builder()

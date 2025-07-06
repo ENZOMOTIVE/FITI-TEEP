@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.fiti_teep.BuildConfig
@@ -61,6 +62,7 @@ data class UserInput (
 )
 
 
+
 @Composable
 fun ChatScreen(paddingValues: PaddingValues) {
 
@@ -68,6 +70,7 @@ fun ChatScreen(paddingValues: PaddingValues) {
     var currentInput by remember { mutableStateOf(UserInput()) }
 
 
+    val context = LocalContext.current
 
 
 
@@ -214,21 +217,24 @@ fun ChatScreen(paddingValues: PaddingValues) {
                                 )
 
                                 // Store the text only message to send to LLM
-                                val userText = currentInput.text ?: ""
+                                //val userText = currentInput.text ?: ""
+                                val userText = currentInput
+                                
                                 //Clear the Input
                                 currentInput = UserInput()
 
 
                                 sendMessageAI(
-                                    userMessageInput =  userText,
-                                    apiKey =  BuildConfig.OPENAI_API_KEY,
+                                    userMessageInput = userText,
+                                    apiKey = BuildConfig.OPENAI_API_KEY,
                                     //AI message directly added to chat container
                                     onResult = { aiReply ->
                                         chatMessages.add(ChatMessage.AIMessage(aiReply))
                                     },
                                     onError = { error ->
                                         chatMessages.add(ChatMessage.AIMessage("Error: $error"))
-                                    }
+                                    },
+                                    context = context
                                 )
                             }
                         }
