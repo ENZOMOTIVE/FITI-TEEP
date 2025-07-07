@@ -32,7 +32,7 @@ fun NotificationDropdown() {
                 imageVector = Icons.Outlined.Notifications,
                 contentDescription = "Notifications",
                 tint = Color.White,
-                modifier = Modifier.size(33.dp)
+                modifier = Modifier.size(28.dp)
             )
         }
 
