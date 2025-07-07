@@ -25,19 +25,18 @@ fun DrawerContent() {
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .width(150.dp)
+            .width(210.dp)
+            .padding(top = 85.dp)
 
     ) {
 
         Surface(
             tonalElevation = 4.dp,
             shadowElevation = 4.dp,
-            color = Color(0xFF00BF63),
+            color = Color(0xFFFFF7E6),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(85.dp)
-
-
 
         ) {
             Column(
@@ -46,13 +45,23 @@ fun DrawerContent() {
                     .padding(top = 34.dp, start = 14.dp, end = 14.dp, bottom = 14.dp)
 
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_app_logo_test),
-                    contentDescription = "App Logo",
-                    modifier = Modifier
-                        .size(50.dp)
-                        .padding(end = 4.dp)
-                )
+                Row (
+                    verticalAlignment = Alignment.CenterVertically,
+
+                ){
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_app_logo_test),
+                        contentDescription = "App Logo",
+                        modifier = Modifier
+                            .size(50.dp)
+                            .padding(end = 4.dp)
+                    )
+
+                    Text("Hi Pet Parent",fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Black)
+                }
+
 
             }
         }
@@ -67,6 +76,12 @@ fun DrawerContent() {
         ) {
             DrawerItem("Profile")
             DrawerItem("Add Pet")
+            DrawerItem("Payments")
+            DrawerItem("Medical Vault")
+            DrawerItem("offers")
+
+            Spacer(modifier = Modifier.weight(1f))
+
             DrawerItem("Settings")
             DrawerItem("Logout")
         }

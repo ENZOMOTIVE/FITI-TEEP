@@ -55,7 +55,8 @@ class MainActivity : ComponentActivity() {
 
                 ModalNavigationDrawer(
                     drawerState = drawerState,
-                    drawerContent = { DrawerContent() }
+                    drawerContent = { DrawerContent() },
+                    scrimColor = Color.Transparent
                 )
                 {
                     Scaffold(
