@@ -59,6 +59,12 @@ fun sendMessageAI(
         }
     }
 
+    // Prompt to inform Behave like a Vet
+    messages.put(JSONObject().apply {
+        put("role", "system")
+        put("content", "You are a helpful, friendly virtual veterinarian assistant. Provide guidance about pet health based on symptoms. Be clear that this is not a substitute for professional diagnosis. If symptoms seem serious, always recommend visiting a real vet.")
+    })
+
     // Wrap user message
     messages.put(JSONObject().apply {
         put("role", "user")
