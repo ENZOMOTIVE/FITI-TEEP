@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
                             CenterAlignedTopAppBar(
                                 title = {
                                         Text(
-                                            text = "WhisPaw",
+                                            text = "Pawpulse",
                                             fontSize = 20.sp,
                                             fontWeight = FontWeight.Bold,
                                             color = Color.White

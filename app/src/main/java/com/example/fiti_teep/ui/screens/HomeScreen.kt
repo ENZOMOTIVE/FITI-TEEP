@@ -32,6 +32,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.fiti_teep.R
+import com.example.fiti_teep.ui.components.AIAssistantPromptBox
+import com.example.fiti_teep.ui.components.CareTipsCard
+import com.example.fiti_teep.ui.components.PetHealthSummaryCard
+import com.example.fiti_teep.ui.components.QuickActionButtonsRow
+import com.example.fiti_teep.ui.components.UpcomingAppointmentsCard
 import com.example.fiti_teep.ui.screens.userCard.UserProfileCard
 
 
@@ -63,6 +68,10 @@ fun HomeScreen(navController: NavController, paddingValues: PaddingValues) {
                 color = Color.Black
             )
 
+            PetHealthSummaryCard()
+
+            UpcomingAppointmentsCard()
+            CareTipsCard()
 
 
 

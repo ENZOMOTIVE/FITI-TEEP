@@ -1,6 +1,8 @@
 package com.example.fiti_teep.ui.screens.chat
 
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -48,6 +50,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.fiti_teep.BuildConfig
 import com.example.fiti_teep.network.sendMessageAI
+import com.example.fiti_teep.ui.components.HealthReportCard
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 
 
 // To handle both Image and Texts
@@ -57,11 +62,16 @@ sealed class ChatMessage{
     data class UserMessage(val text: String?, val imageUri: Uri ?) : ChatMessage()
 
     // Output Message returned from Ai
-    data class AIMessage(val text: String): ChatMessage()
+   // data class AIMessage(val text: String): ChatMessage()
 
     //Handle Text and Image Separately
     //data class Text(val message: String) : ChatMessage()
     //data class Image(val uri: android.net.Uri) : ChatMessage()
+
+
+    //MockMessage
+    data class AIMessage(val text: String = "", val showHealthCard: Boolean = false) : ChatMessage()
+
 }
 
 // Holding class for the input Storage
@@ -79,6 +89,9 @@ fun ChatScreen(paddingValues: PaddingValues) {
     var currentInput by remember { mutableStateOf(UserInput()) }
 
     val context = LocalContext.current
+
+    var showHealthCard by remember { mutableStateOf(false) }
+
 
     //Handles Temporary input storage separate
     // keeps Text the input of the user
@@ -175,6 +188,11 @@ fun ChatScreen(paddingValues: PaddingValues) {
                             }
 
                             is ChatMessage.AIMessage -> {
+
+                                if (message.showHealthCard) {
+                                    HealthReportCard()
+                                }
+                                /*
                                 Column(
                                     modifier = Modifier
                                         .background(
@@ -191,6 +209,7 @@ fun ChatScreen(paddingValues: PaddingValues) {
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                 }
+                                */
                             }
 
                         }
@@ -251,6 +270,8 @@ fun ChatScreen(paddingValues: PaddingValues) {
                     IconButton(
                         onClick = {
                             if (!currentInput.text.isNullOrBlank() || currentInput.imageUri != null) {
+
+
                                 chatMessages.add(
                                     ChatMessage.UserMessage(
                                         text = currentInput.text,
@@ -265,7 +286,8 @@ fun ChatScreen(paddingValues: PaddingValues) {
                                 //Clear the Input
                                 currentInput = UserInput()
 
-
+                                // Actual AI Response
+                                /*
                                 sendMessageAI(
                                     userMessageInput = userText,
                                     apiKey = BuildConfig.OPENAI_API_KEY,
@@ -278,6 +300,18 @@ fun ChatScreen(paddingValues: PaddingValues) {
                                     },
                                     context = context
                                 )
+
+                                 */
+
+                                // Mock Response UI
+
+                                Handler(Looper.getMainLooper()).postDelayed({
+                                    chatMessages.add(ChatMessage.AIMessage(showHealthCard = true))
+                                }, 500)
+
+
+
+
                             }
                         }
                     )
