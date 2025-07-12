@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.fiti_teep.ui.screens.chat.ChatScreen
 import com.example.fiti_teep.ui.screens.HomeScreen
+import com.example.fiti_teep.ui.screens.login.LoginScreen
 
 
 @Composable
@@ -14,8 +15,19 @@ fun NavGraph(navController: NavHostController,paddingValues: PaddingValues){
 
     NavHost(
         navController = navController,
-        startDestination = Routes.HOME
+        startDestination = Routes.LOGIN
     ) {
+
+        composable(Routes.LOGIN) {
+            LoginScreen(
+                onLoginScreenSuccess = {
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.LOGIN) { inclusive = true }
+                    }
+                }
+            )
+        }
+
 
         composable(Routes.HOME){
             HomeScreen(navController, paddingValues)
@@ -24,6 +36,10 @@ fun NavGraph(navController: NavHostController,paddingValues: PaddingValues){
         composable(Routes.CHAT){
             ChatScreen(paddingValues)
         }
+
+
+
+
     }
 
 
