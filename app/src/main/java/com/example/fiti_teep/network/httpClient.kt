@@ -4,7 +4,7 @@ package com.example.fiti_teep.network
 
 import android.content.Context
 import android.util.Log
-import com.example.fiti_teep.ui.screens.chat.UserInput
+import com.example.fiti_teep.data_layer.chatScreen.UserInput
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

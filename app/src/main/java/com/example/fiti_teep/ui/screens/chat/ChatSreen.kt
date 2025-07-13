@@ -58,14 +58,12 @@ import kotlinx.coroutines.delay
 
 
 
-
-
-
 @Composable
-fun ChatScreen(paddingValues: PaddingValues) {
+fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
 
 //Handles temporary  input single Unit
-    var currentInput by remember { mutableStateOf(UserInput()) }
+    //var currentInput by remember { mutableStateOf(UserInput()) }
+    val currentInput = viewModel.currentInput
 
     val context = LocalContext.current
 
@@ -93,7 +91,9 @@ fun ChatScreen(paddingValues: PaddingValues) {
     ) { uri ->
         if (uri != null) {
             //selectedImageUri = uri
-            currentInput = currentInput.copy(imageUri = uri)
+            // currentInput = currentInput.copy(imageUri = uri)
+            viewModel.onImageSelected(uri)
+
             Log.d("PhotoPicker", "Selected URI: $uri")
         } else {
             Log.d("PhotoPicker", "No media selected")
@@ -233,7 +233,7 @@ fun ChatScreen(paddingValues: PaddingValues) {
                     }
                     TextField(
                         value = currentInput.text ?: "",
-                        onValueChange = { currentInput = currentInput.copy(text = it) },
+                        onValueChange = { viewModel.onTextChanged(it) },
                         modifier = Modifier.weight(1f),
                         placeholder = { Text("Type a message...") },
                         maxLines = 3,
@@ -266,7 +266,7 @@ fun ChatScreen(paddingValues: PaddingValues) {
                                 val userText = currentInput
                                 
                                 //Clear the Input
-                                currentInput = UserInput()
+                                viewModel.clearInput()
 
                                 // Actual AI Response
 
