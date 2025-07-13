@@ -62,7 +62,11 @@ import kotlinx.coroutines.delay
 fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
 
 //Handles temporary  input single Unit
+
+    // Without using ViewModel
     //var currentInput by remember { mutableStateOf(UserInput()) }
+
+    //Using viewModel
     val currentInput = viewModel.currentInput
 
     val context = LocalContext.current

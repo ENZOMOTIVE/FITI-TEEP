@@ -5,18 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
@@ -27,7 +20,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.fiti_teep.R
+import com.example.fiti_teep.ViewModelsHolder.ViewModelHolder
+import com.example.fiti_teep.ViewModelsHolder.provideAppViewModel
 import com.example.fiti_teep.ui.components.bottomNavigation.BottomNavigationBar
 import com.example.fiti_teep.ui.components.sideBar.DrawerContent
 import com.example.fiti_teep.ui.navigation.bottom_navigation_Items
@@ -35,12 +29,16 @@ import com.example.fiti_teep.ui.screens.notification.NotificationDropdown
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+
+
+    private lateinit var viewModelHolder: ViewModelHolder
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-
+        viewModelHolder = provideAppViewModel(this)
 
         setContent {
             FititeepTheme {
@@ -108,7 +106,7 @@ class MainActivity : ComponentActivity() {
                     )
 
                     { paddingValues ->
-                        NavGraph(navController = navController, paddingValues = paddingValues)
+                        NavGraph(navController = navController, paddingValues = paddingValues, viewmodel = viewModelHolder)
 
                     }
                 }
