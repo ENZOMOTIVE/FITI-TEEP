@@ -1,5 +1,6 @@
 package com.example.fiti_teep
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,12 +27,18 @@ import com.example.fiti_teep.ui.components.bottomNavigation.BottomNavigationBar
 import com.example.fiti_teep.ui.components.sideBar.DrawerContent
 import com.example.fiti_teep.ui.navigation.bottom_navigation_Items
 import com.example.fiti_teep.ui.screens.notification.NotificationDropdown
+import com.web3auth.core.Web3Auth
+import com.web3auth.core.types.BuildEnv
+import com.web3auth.core.types.Network
+import com.web3auth.core.types.Web3AuthOptions
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
 
     private lateinit var viewModelHolder: ViewModelHolder
+
+    private lateinit var web3Auth: Web3Auth
 
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -40,6 +47,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         viewModelHolder = provideAppViewModel(this)
+
+        web3Auth = Web3Auth(
+            Web3AuthOptions(
+                clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ",
+                network = Network.SAPPHIRE_MAINNET,
+                buildEnv = BuildEnv.PRODUCTION,
+                redirectUrl = Uri.parse("com.sbz.web3authdemoapp://auth")
+            ), this
+        )
+
 
 
 
@@ -109,7 +126,7 @@ class MainActivity : ComponentActivity() {
                     )
 
                     { paddingValues ->
-                        NavGraph(navController = navController, paddingValues = paddingValues, viewmodel = viewModelHolder)
+                        NavGraph(navController = navController, paddingValues = paddingValues, viewmodel = viewModelHolder, web3Authparam = web3Auth )
 
                     }
                 }
