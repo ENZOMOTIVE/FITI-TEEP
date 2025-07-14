@@ -33,12 +33,15 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var viewModelHolder: ViewModelHolder
 
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         viewModelHolder = provideAppViewModel(this)
+
+
 
         setContent {
             FititeepTheme {

@@ -93,6 +93,11 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
 
+    // IMP START - Installation
+    implementation("com.github.web3auth:web3auth-android-sdk:9.0.4")
+// IMP END - Installation
+    implementation("org.web3j:core:4.8.7-android")
+
 
 
 
