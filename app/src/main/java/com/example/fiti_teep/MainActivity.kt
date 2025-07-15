@@ -1,7 +1,9 @@
 package com.example.fiti_teep
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -41,6 +43,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var web3Auth: Web3Auth
 
 
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +59,7 @@ class MainActivity : ComponentActivity() {
                 redirectUrl = Uri.parse("com.sbz.web3authdemoapp://auth")
             ), this
         )
+
 
 
 

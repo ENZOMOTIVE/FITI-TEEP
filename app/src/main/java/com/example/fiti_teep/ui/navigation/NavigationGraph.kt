@@ -25,7 +25,7 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Routes.WEB3AUTH   //Routes.LOGIN
+        startDestination = Routes.HOME
     ) {
 
         composable(Routes.WEB3AUTH){
