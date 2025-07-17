@@ -10,7 +10,7 @@ import com.example.fiti_teep.ViewModelsHolder.ViewModelHolder
 import com.example.fiti_teep.ui.screens.chat.ChatScreen
 import com.example.fiti_teep.ui.screens.HomeScreen
 import com.example.fiti_teep.ui.screens.login.LoginScreen
-import com.example.fiti_teep.ui.screens.webAuth.Web3AuthScreen
+//import com.example.fiti_teep.ui.screens.webAuth.Web3AuthScreen
 import com.web3auth.core.Web3Auth
 
 
@@ -28,10 +28,10 @@ fun NavGraph(
         startDestination = Routes.HOME
     ) {
 
-        composable(Routes.WEB3AUTH){
-             Web3AuthScreen(navController,web3Authparam)
+        //composable(Routes.WEB3AUTH){
+         //    Web3AuthScreen(navController,web3Authparam)
 
-        }
+        //}
 
         composable(Routes.LOGIN) {
             LoginScreen(

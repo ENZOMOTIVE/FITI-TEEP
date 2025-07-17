@@ -82,11 +82,7 @@ fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
 
 
     // Container to store the messages
-    val chatMessages = remember {
-        mutableStateListOf<ChatMessage>(
-            ChatMessage.AIMessage("Hi, how can I help you today?")
-        )
-    }
+    val chatMessages = viewModel.chatMessages
 
 
     // Photo Picker
@@ -258,12 +254,12 @@ fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
                             if (!currentInput.text.isNullOrBlank() || currentInput.imageUri != null) {
 
 
-                                chatMessages.add(
-                                    ChatMessage.UserMessage(
-                                        text = currentInput.text,
-                                        imageUri = currentInput.imageUri
-                                    )
+                                val userMessage = ChatMessage.UserMessage(
+                                    text = currentInput.text,
+                                    imageUri = currentInput.imageUri
                                 )
+                                viewModel.addUserMessage(userMessage)
+
 
                                 // Store the text only message to send to LLM
                                 //val userText = currentInput.text ?: ""
@@ -279,10 +275,10 @@ fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
                                     apiKey = BuildConfig.OPENAI_API_KEY,
                                     //AI message directly added to chat container
                                     onResult = { aiReply ->
-                                        chatMessages.add(ChatMessage.AIMessage(aiReply))
+                                        viewModel.addAIMessage(ChatMessage.AIMessage(aiReply))
                                     },
                                     onError = { error ->
-                                        chatMessages.add(ChatMessage.AIMessage("Error: $error"))
+                                        viewModel.addErrorMessage(error)
                                     },
                                     context = context
                                 )
