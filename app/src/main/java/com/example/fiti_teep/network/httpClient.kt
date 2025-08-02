@@ -14,6 +14,7 @@ import org.json.JSONObject
 import java.io.IOException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import android.util.Base64
+import com.example.fiti_teep.network.Ktor.HttpProvider
 
 
 fun sendMessageAI(
@@ -23,7 +24,12 @@ fun sendMessageAI(
     onResult: (String) -> Unit,
     onError: (String) -> Unit
 ) {
+
+   // client using the okhttp
     val client = OkHttpClient()
+
+    //client using the ktor client singleton provider
+    //val client = HttpProvider.Ktorclient
 
     val messages = JSONArray()
 

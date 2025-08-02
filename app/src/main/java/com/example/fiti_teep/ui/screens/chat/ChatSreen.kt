@@ -41,8 +41,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
+
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -50,11 +49,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.fiti_teep.BuildConfig
 import com.example.fiti_teep.data_layer.chatScreen.ChatMessage
-import com.example.fiti_teep.data_layer.chatScreen.UserInput
+
 import com.example.fiti_teep.network.sendMessageAI
-import com.example.fiti_teep.ui.components.HealthReportCard
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
+
 
 
 
