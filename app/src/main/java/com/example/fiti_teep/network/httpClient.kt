@@ -3,18 +3,19 @@ package com.example.fiti_teep.network
 
 
 import android.content.Context
-import android.util.Log
 import com.example.fiti_teep.data_layer.chatScreen.UserInput
+import org.json.JSONArray
+import org.json.JSONObject
+import android.util.Base64
+import com.example.fiti_teep.network.Ktor.HttpProvider
+import io.ktor.client.request.headers
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
+import io.ktor.client.utils.EmptyContent.headers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.*
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.IOException
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import android.util.Base64
-import com.example.fiti_teep.network.Ktor.HttpProvider
 
 
 fun sendMessageAI(
@@ -26,10 +27,10 @@ fun sendMessageAI(
 ) {
 
    // client using the okhttp
-    val client = OkHttpClient()
+   // val client = OkHttpClient()
 
     //client using the ktor client singleton provider
-    //val client = HttpProvider.Ktorclient
+    val client = HttpProvider.Ktorclient
 
     val messages = JSONArray()
 
@@ -83,40 +84,35 @@ fun sendMessageAI(
         put("max_tokens", 300)
     }
 
-    val request = Request.Builder()
-        .url("https://api.openai.com/v1/chat/completions")
-        .post(RequestBody.create("application/json".toMediaTypeOrNull(), jsonBody.toString()))
-        .addHeader("Authorization", "Bearer $apiKey")
-        .addHeader("Content-Type", "application/json")
-        .build()
+
+
 
     CoroutineScope(Dispatchers.IO).launch {
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("OpenAI", "Request failed: ${e.message}")
-                onError(e.message ?: "Unknown error")
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!response.isSuccessful) {
-                        onError("Unexpected response: ${response.code}")
-                        return
-                    }
-
-                    val responseBody = response.body?.string()
-                    try {
-                        val json = JSONObject(responseBody ?: "")
-                        val reply = json.getJSONArray("choices")
-                            .getJSONObject(0)
-                            .getJSONObject("message")
-                            .getString("content")
-                        onResult(reply.trim())
-                    } catch (e: Exception) {
-                        onError("Parse error: ${e.message}")
-                    }
+        try {
+            val response: String = client.post("https://api.openai.com/v1/chat/completions") {
+                headers {
+                    append("Authorization", "Bearer $apiKey")
+                    append("Content-Type", "application/json")
                 }
+                setBody(jsonBody.toString())
+            }.bodyAsText()
+
+            try {
+                val json = JSONObject(response)
+                val reply = json.getJSONArray("choices")
+                    .getJSONObject(0)
+                    .getJSONObject("message")
+                    .getString("content")
+                onResult(reply.trim())
+            } catch (e: Exception) {
+                onError("Parse error: ${e.message}")
             }
-        })
+
+        } catch (e: Exception) {
+            onError("Request failed: ${e.message}")
+        }
     }
+
+
+
 }
