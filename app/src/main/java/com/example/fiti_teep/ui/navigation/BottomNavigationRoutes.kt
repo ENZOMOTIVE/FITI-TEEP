@@ -1,6 +1,7 @@
 package com.example.fiti_teep.ui.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
@@ -25,6 +26,11 @@ val bottom_navigation_Items = listOf(
     BottomNavigationItem(
         title = "AI Chat",
       icon =  Icons.Filled.MailOutline,
+        route = Routes.CHAT
+    ),
+    BottomNavigationItem(
+        title = "Account",
+        icon = Icons.Filled.AccountCircle,
         route = Routes.CHAT
     )
 

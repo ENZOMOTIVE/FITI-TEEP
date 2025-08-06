@@ -86,8 +86,10 @@ fun sendMessageAI(
 
 
 
-
+    // Coroutine based post req
     CoroutineScope(Dispatchers.IO).launch {
+
+        //send the post req
         try {
             val response: String = client.post("https://api.openai.com/v1/chat/completions") {
                 headers {

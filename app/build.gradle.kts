@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.fiti_teep"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -87,7 +87,7 @@ dependencies {
     androidTestImplementation(libs.navigation.testing)
 
     //Koil Library
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.7.0")
 
     //okhttp
     implementation(libs.okhttp)
@@ -97,8 +97,10 @@ dependencies {
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
 
-
-
+    //Web3Auth
+    implementation("com.github.web3auth:web3auth-android-sdk:9.1.3")
+    // Web3j
+    implementation("org.web3j:core:4.8.7-android")
 
 
 
