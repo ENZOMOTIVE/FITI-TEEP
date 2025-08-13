@@ -6,6 +6,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     kotlin("plugin.serialization") version "2.0.21"
+
+    //firebase
+    id("com.google.gms.google-services")
     
 }
 
@@ -103,6 +106,11 @@ dependencies {
     // Web3j
     implementation("org.web3j:core:4.8.7-android")
 
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:34.1.0"))
 
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation("com.google.firebase:firebase-analytics")
+    
 
 }
