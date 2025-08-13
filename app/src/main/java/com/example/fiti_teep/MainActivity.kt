@@ -1,5 +1,6 @@
 package com.example.fiti_teep
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,8 +21,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.fiti_teep.ViewModelsHolder.ViewModelHolder
-import com.example.fiti_teep.ViewModelsHolder.provideAppViewModel
 import com.example.fiti_teep.ui.components.bottomNavigation.BottomNavigationBar
 import com.example.fiti_teep.ui.components.sideBar.DrawerContent
 import com.example.fiti_teep.ui.navigation.bottom_navigation_Items
@@ -31,14 +30,13 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
 
 
-    private lateinit var viewModelHolder: ViewModelHolder
+
+
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        viewModelHolder = provideAppViewModel(this)
 
         setContent {
             FititeepTheme {
@@ -106,7 +104,7 @@ class MainActivity : ComponentActivity() {
                     )
 
                     { paddingValues ->
-                        NavGraph(navController = navController, paddingValues = paddingValues, viewmodel = viewModelHolder)
+                        NavGraph(navController = navController, paddingValues = paddingValues )
 
                     }
                 }

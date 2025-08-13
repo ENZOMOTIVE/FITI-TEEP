@@ -78,12 +78,15 @@ fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
     //var selectedImageUri by remember { mutableStateOf<android.net.Uri?>(null) }
 
 
-    // Container to store the messages
-    val chatMessages = remember {
-        mutableStateListOf<ChatMessage>(
-            ChatMessage.AIMessage("Hi, how can I help you today?")
-        )
-    }
+    // UI Container to store the messages in
+    // val chatMessages = remember {
+      //  mutableStateListOf<ChatMessage>(
+       //     ChatMessage.AIMessage("Hi, how can I help you today?")
+       // )
+    //}
+    val chatMessages = viewModel.chatMessages
+
+
 
 
     // Photo Picker
@@ -255,12 +258,17 @@ fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
                             if (!currentInput.text.isNullOrBlank() || currentInput.imageUri != null) {
 
 
-                                chatMessages.add(
-                                    ChatMessage.UserMessage(
-                                        text = currentInput.text,
-                                        imageUri = currentInput.imageUri
-                                    )
-                                )
+                               // chatMessages.add(
+                                //    ChatMessage.UserMessage(
+                                 //       text = currentInput.text,
+                                  //      imageUri = currentInput.imageUri
+                                   // )
+                                //)
+
+                                viewModel.addMessage(ChatMessage.UserMessage(
+                                    text = currentInput.text,
+                                       imageUri = currentInput.imageUri
+                                ))
 
                                 // Store the text only message to send to LLM
                                 //val userText = currentInput.text ?: ""
@@ -276,10 +284,12 @@ fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
                                     apiKey = BuildConfig.OPENAI_API_KEY,
                                     //AI message directly added to chat container
                                     onResult = { aiReply ->
-                                        chatMessages.add(ChatMessage.AIMessage(aiReply))
+                                        //chatMessages.add(ChatMessage.AIMessage(aiReply))
+                                        viewModel.addMessage(ChatMessage.AIMessage(aiReply))
                                     },
                                     onError = { error ->
-                                        chatMessages.add(ChatMessage.AIMessage("Error: $error"))
+                                        //chatMessages.add(ChatMessage.AIMessage("Error: $error"))
+                                        viewModel.addMessage(ChatMessage.AIMessage("Error: $error"))
                                     },
                                     context = context
                                 )

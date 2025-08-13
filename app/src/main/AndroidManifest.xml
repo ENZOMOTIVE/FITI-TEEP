@@ -22,12 +22,25 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Fititeep">
+
+            <!-- This one starts the app normally -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- This one handles Web3Auth redirect -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="com.example.fiti_teep"
+                    android:host="auth" />
+            </intent-filter>
+
         </activity>
+
     </application>
 
 </manifest>

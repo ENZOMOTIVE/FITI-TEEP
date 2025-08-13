@@ -6,7 +6,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.fiti_teep.ViewModelsHolder.ViewModelHolder
 import com.example.fiti_teep.ui.screens.chat.ChatScreen
 import com.example.fiti_teep.ui.screens.HomeScreen
 import com.example.fiti_teep.ui.screens.chat.ChatViewModel
@@ -17,13 +16,14 @@ import com.example.fiti_teep.ui.screens.login.LoginScreen
 fun NavGraph(
     navController: NavHostController,
     paddingValues: PaddingValues,
-    viewmodel: ViewModelHolder
+
 ){
 
     NavHost(
         navController = navController,
         startDestination = Routes.LOGIN
     ) {
+
 
         composable(Routes.LOGIN) {
             LoginScreen(
@@ -41,7 +41,12 @@ fun NavGraph(
         }
 
         composable(Routes.CHAT){
-            ChatScreen(paddingValues, viewModel = viewmodel.chatViewModel)
+            val chatViewModel: ChatViewModel = viewModel()
+            ChatScreen(
+                paddingValues,
+                viewModel = chatViewModel
+            )
+
         }
 
 
