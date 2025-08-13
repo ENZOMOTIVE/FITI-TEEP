@@ -21,20 +21,8 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Routes.LOGIN
+        startDestination = Routes.HOME
     ) {
-
-
-        composable(Routes.LOGIN) {
-            LoginScreen(
-                onLoginScreenSuccess = {
-                    navController.navigate(Routes.HOME) {
-                        popUpTo(Routes.LOGIN) { inclusive = true }
-                    }
-                }
-            )
-        }
-
 
         composable(Routes.HOME){
             HomeScreen(navController, paddingValues)

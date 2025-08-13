@@ -5,27 +5,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.fiti_teep.ui.navigation.NavGraph
 import com.example.fiti_teep.ui.theme.FititeepTheme
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.fiti_teep.ui.components.bottomNavigation.BottomNavigationBar
-import com.example.fiti_teep.ui.components.sideBar.DrawerContent
-import com.example.fiti_teep.ui.navigation.bottom_navigation_Items
-import com.example.fiti_teep.ui.screens.notification.NotificationDropdown
-import kotlinx.coroutines.launch
+import com.example.fiti_teep.ui.screens.login.LoginScreen
+import com.example.fiti_teep.ui.screens.login.LoginViewModel
+
 
 class MainActivity : ComponentActivity() {
 
@@ -42,72 +33,22 @@ class MainActivity : ComponentActivity() {
             FititeepTheme {
                 val navController = rememberNavController()
 
-                val currentBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentRoute = currentBackStackEntry?.destination?.route
+                val loginViewModel: LoginViewModel = viewModel()
 
-                //Sidebar Drawer
-                val drawerState = rememberDrawerState(DrawerValue.Closed)
-                val coroutineScope = rememberCoroutineScope()
+                val isLoggedIn by loginViewModel.isLoggedIn.collectAsState()
 
-                ModalNavigationDrawer(
-                    drawerState = drawerState,
-                    drawerContent = { DrawerContent() },
-                    scrimColor = Color.Transparent
-                )
-                {
-                    Scaffold(
-                        topBar = {
-                            CenterAlignedTopAppBar(
-                                title = {
-                                        Text(
-                                            text = "Pawpulse",
-                                            fontSize = 20.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = Color.White
-                                        )
-                                },
-                                navigationIcon = {
-                                    IconButton(
-                                        onClick = {
-                                            coroutineScope.launch { drawerState.open() }
-                                        },
-                                        modifier = Modifier.size(60.dp)
-                                    ) {
-                                        Image(
-                                            painter = painterResource(id = R.drawable.ic_app_logo_test),
-                                            contentDescription = "App Logo",
-                                            modifier = Modifier
-                                                .size(50.dp)
-                                                .padding(end = 4.dp)
-                                        )
-                                    }
-                                }
-                                ,
-                                actions = {
-                                    NotificationDropdown()
-                                },
-                                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                    containerColor = Color(0xFF00BF63),
-                                    titleContentColor = Color.White
-                                )
-                            )
+                if (isLoggedIn) {
 
-                        },
-                        bottomBar = {
-                            BottomNavigationBar(
-                                navController = navController,
-                                items = bottom_navigation_Items,
-                                currentRoute = currentRoute
-                            )
-                        },
-                        containerColor = Color.White
+                   Pawpulse(navController)
+
+                }else {
+                    LoginScreen(
+                        onLoginScreenSuccess = {
+
+                        }
                     )
-
-                    { paddingValues ->
-                        NavGraph(navController = navController, paddingValues = paddingValues )
-
-                    }
                 }
+
             }
         }
     }
