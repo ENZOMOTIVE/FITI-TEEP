@@ -18,14 +18,13 @@ import com.web3auth.core.Web3Auth
 import com.web3auth.core.types.BuildEnv
 import com.web3auth.core.types.Network
 import com.web3auth.core.types.Web3AuthOptions
-import android.net.Uri
 import androidx.core.net.toUri
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.http.HttpService
 import java.util.concurrent.CompletableFuture
-import kotlin.math.log
 import android.util.Log
+
 
 
 class MainActivity : ComponentActivity() {
@@ -45,6 +44,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+
 
         web3Auth = Web3Auth(
         Web3AuthOptions(
