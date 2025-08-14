@@ -18,7 +18,8 @@ okhttp = "4.12.0"
 #ktor
 ktor_version="3.2.3"
 
-
+#koin DI
+koin_version="4.0.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,6 +51,12 @@ navigation-testing = { module = "androidx.navigation:navigation-testing", versio
 #ktor
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor_version" }
 ktor-client-cio  = { module = "io.ktor:ktor-client-cio",  version.ref = "ktor_version" }
+
+#koin
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin_version" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin_version" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin_version" }
+
 
 
 [plugins]

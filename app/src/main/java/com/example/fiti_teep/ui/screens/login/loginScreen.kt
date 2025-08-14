@@ -29,48 +29,6 @@ fun LoginScreen(
 ) {
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
 
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    
 
-    // Navigate if logged in
-    LaunchedEffect(isLoggedIn) {
-        if (isLoggedIn) {
-            onLoginScreenSuccess()
-        }
     }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center
-    ) {
-        TextField(
-            value = username,
-            onValueChange = { username = it },
-            label = { Text("Username ") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        TextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Button (
-            onClick = {
-                viewModel.login(username, password)
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Login")
-        }
-    }
-}

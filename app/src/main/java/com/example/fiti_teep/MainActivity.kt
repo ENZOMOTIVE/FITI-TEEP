@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
         web3Auth = Web3Auth(
         Web3AuthOptions(
             // Client id of Web3Auth client id
-            "client id",
+            "BIYP2ZZSe0kfk9GGUT_ruqFI6wj28jQ0LdclMaoYUd7XeVbg39fJ9ue5ICpa7qnB3EHkyL9fBCuP9Y4-hgB0Zuk",
             // Blockchain Network
             Network.SAPPHIRE_DEVNET,
             // Production Enviorenment
