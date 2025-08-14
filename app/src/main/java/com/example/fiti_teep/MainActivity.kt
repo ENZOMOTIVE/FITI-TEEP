@@ -24,7 +24,8 @@ import org.web3j.protocol.Web3j
 import org.web3j.protocol.http.HttpService
 import java.util.concurrent.CompletableFuture
 import android.util.Log
-
+import io.ktor.client.HttpClient
+import org.koin.core.context.GlobalContext
 
 
 class MainActivity : ComponentActivity() {
@@ -44,7 +45,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
 
 
         web3Auth = Web3Auth(
@@ -100,6 +100,8 @@ class MainActivity : ComponentActivity() {
                 // Ideally, you should initiate the login function here.
             }
         }
+
+
 
 
         setContent {

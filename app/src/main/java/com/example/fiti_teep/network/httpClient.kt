@@ -7,15 +7,15 @@ import com.example.fiti_teep.data_layer.chatScreen.UserInput
 import org.json.JSONArray
 import org.json.JSONObject
 import android.util.Base64
-import com.example.fiti_teep.network.Ktor.HttpProvider
+import io.ktor.client.HttpClient
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
-import io.ktor.client.utils.EmptyContent.headers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.core.context.GlobalContext
 
 
 fun sendMessageAI(
@@ -23,14 +23,18 @@ fun sendMessageAI(
     context: Context,
     apiKey: String,
     onResult: (String) -> Unit,
-    onError: (String) -> Unit
+    onError: (String) -> Unit,
+
 ) {
 
    // client using the okhttp
    // val client = OkHttpClient()
 
     //client using the ktor client singleton provider
-    val client = HttpProvider.Ktorclient
+    //val client = HttpProvider.Ktorclient
+
+    // Koin injected client
+    val client: HttpClient = GlobalContext.get().get()
 
     val messages = JSONArray()
 

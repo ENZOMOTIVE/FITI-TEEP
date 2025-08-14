@@ -24,28 +24,10 @@ class LoginViewModel : ViewModel() {
     private val _isLoggedIn = MutableStateFlow(false)
     val isLoggedIn: StateFlow<Boolean> = _isLoggedIn.asStateFlow()
 
-    @SuppressLint("StaticFieldLeak")
-    private lateinit var emailInput: EditText
-    private val rpcUrl = "https://1rpc.io/sepolia"
-
-
-
-
-
-    private fun signIn() {
-        val email = emailInput.text.toString()
-        val selectedLoginProvider = Provider.EMAIL_PASSWORDLESS   // Can be GOOGLE, FACEBOOK, TWITCH etc.
-        val loginParams = LoginParams(
-            selectedLoginProvider,         // provider
-            null,                           // String s
-            extraLoginOptions, // extraLoginOptions
-            null,                           // Uri
-            null,                           // String s1
-            null,                           // MFALevel
-            null,                           // Curve
-            null                            // String s2
-        )
+    fun login() {
+        // Temporary mock login logic
+        _isLoggedIn.value = true
+    }
 
 
     }
-}

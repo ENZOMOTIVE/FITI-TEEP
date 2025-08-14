@@ -27,8 +27,33 @@ fun LoginScreen(
     viewModel: LoginViewModel = viewModel(),
     onLoginScreenSuccess: () -> Unit
 ) {
+
+
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
 
-    
-
+    // Trigger navigation when logged in
+    LaunchedEffect(isLoggedIn) {
+        if (isLoggedIn) {
+            onLoginScreenSuccess()
+        }
     }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Welcome to Pawpulse")
+        Spacer(modifier = Modifier.height(1.dp)) // vertical space
+
+        Button(
+            onClick = { viewModel.login() },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Login")
+        }
+    }
+}
+
+

@@ -1,6 +1,8 @@
 package com.example.fiti_teep
 
 import android.app.Application
+import com.example.fiti_teep.koin_di.ktor_network_module.ktor_httpclient_module
+//import com.example.fiti_teep.koin_di.ktor_network_module.ktor_httpclient_module
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -15,8 +17,11 @@ class PawpulseApplication: Application(){
             androidLogger()
             // Reference Android context
             androidContext(this@PawpulseApplication)
-            // Load modules
-            modules(myAppModules)
+
+        // Load modules
+           modules(ktor_httpclient_module)
         }
+
+
     }
 }
