@@ -1,0 +1,118 @@
+package com.example.fiti_teep.ui.screens.chat
+
+
+
+import android.content.Context
+import com.example.fiti_teep.data_layer.chatScreen.UserInput
+import org.json.JSONArray
+import org.json.JSONObject
+import android.util.Base64
+import io.ktor.client.HttpClient
+import io.ktor.client.request.headers
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+// Koin injected HttpClient
+class ChatRepository (private val client: HttpClient ) {
+
+    fun sendMessageAI(
+        userMessageInput: UserInput,
+        context: Context,
+        apiKey: String,
+        onResult: (String) -> Unit,
+        onError: (String) -> Unit,
+    ) {
+
+
+        val messages = JSONArray()
+
+        val contentList = JSONArray()
+
+        // Add text if available
+        userMessageInput.text?.let { text ->
+            contentList.put(JSONObject().apply {
+                put("type", "text")
+                put("text", text)
+            })
+        }
+
+        // Add image if available
+        userMessageInput.imageUri?.let { uri ->
+            try {
+                val inputStream = context.contentResolver.openInputStream(uri)
+                val imageBytes = inputStream?.readBytes()
+                inputStream?.close()
+
+                if (imageBytes != null) {
+                    val base64Image = Base64.encodeToString(imageBytes, Base64.NO_WRAP)
+                    contentList.put(JSONObject().apply {
+                        put("type", "image_url")
+                        put("image_url", JSONObject().apply {
+                            put("url", "data:image/jpeg;base64,$base64Image")
+                        })
+                    })
+                }
+            } catch (e: Exception) {
+                onError("Image encoding failed: ${e.message}")
+                return
+            }
+        }
+
+        // Prompt to inform Behave like a Vet
+        messages.put(JSONObject().apply {
+            put("role", "system")
+            put(
+                "content",
+                "You are a helpful, friendly virtual veterinarian assistant. Provide guidance about pet health based on symptoms. Be clear that this is not a substitute for professional diagnosis. If symptoms seem serious, always recommend visiting a real vet."
+            )
+        })
+
+        // Wrap user message
+        messages.put(JSONObject().apply {
+            put("role", "user")
+            put("content", contentList)
+        })
+
+        val jsonBody = JSONObject().apply {
+            put("model", "gpt-4o")
+            put("messages", messages)
+            put("max_tokens", 300)
+        }
+
+
+        // Coroutine based post req
+        CoroutineScope(Dispatchers.IO).launch {
+
+            //send the post req
+            try {
+                val response: String = client.post("https://api.openai.com/v1/chat/completions") {
+                    headers {
+                        append("Authorization", "Bearer $apiKey")
+                        append("Content-Type", "application/json")
+                    }
+                    setBody(jsonBody.toString())
+                }.bodyAsText()
+
+                try {
+                    val json = JSONObject(response)
+                    val reply = json.getJSONArray("choices")
+                        .getJSONObject(0)
+                        .getJSONObject("message")
+                        .getString("content")
+                    onResult(reply.trim())
+                } catch (e: Exception) {
+                    onError("Parse error: ${e.message}")
+                }
+
+            } catch (e: Exception) {
+                onError("Request failed: ${e.message}")
+            }
+        }
+
+
+    }
+}

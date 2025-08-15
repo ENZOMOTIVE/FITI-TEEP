@@ -1,6 +1,7 @@
 package com.example.fiti_teep
 
 import android.app.Application
+import com.example.fiti_teep.koin_di.chatMessage_module.chatMessage_module
 import com.example.fiti_teep.koin_di.ktor_network_module.ktor_httpclient_module
 //import com.example.fiti_teep.koin_di.ktor_network_module.ktor_httpclient_module
 import org.koin.android.ext.koin.androidContext
@@ -19,7 +20,8 @@ class PawpulseApplication: Application(){
             androidContext(this@PawpulseApplication)
 
         // Load modules
-           modules(ktor_httpclient_module)
+           modules(ktor_httpclient_module,
+               chatMessage_module)
         }
 
 

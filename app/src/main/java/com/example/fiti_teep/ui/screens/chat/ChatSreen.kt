@@ -1,15 +1,11 @@
 package com.example.fiti_teep.ui.screens.chat
 
-import android.net.Uri
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,59 +30,28 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.example.fiti_teep.BuildConfig
 import com.example.fiti_teep.data_layer.chatScreen.ChatMessage
-
-import com.example.fiti_teep.network.sendMessageAI
-
-
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
+fun ChatScreen(paddingValues: PaddingValues) {
 
-//Handles temporary  input single Unit
-
-    // Without using ViewModel
-    //var currentInput by remember { mutableStateOf(UserInput()) }
+    val chatViewModel: ChatViewModel = koinViewModel()
 
     //Using viewModel
-    val currentInput = viewModel.currentInput
+    val currentInput = chatViewModel.currentInput
 
     val context = LocalContext.current
 
-    var showHealthCard by remember { mutableStateOf(false) }
-
-
-    //Handles Temporary input storage separate
-    // keeps Text the input of the user
-    //var messageText by remember { mutableStateOf("") }
-    // Image input
-    //var selectedImageUri by remember { mutableStateOf<android.net.Uri?>(null) }
-
-
-    // UI Container to store the messages in
-    // val chatMessages = remember {
-      //  mutableStateListOf<ChatMessage>(
-       //     ChatMessage.AIMessage("Hi, how can I help you today?")
-       // )
-    //}
-    val chatMessages = viewModel.chatMessages
-
-
+    val chatMessages = chatViewModel.chatMessages
 
 
     // Photo Picker
@@ -94,9 +59,8 @@ fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
         ActivityResultContracts.PickVisualMedia()
     ) { uri ->
         if (uri != null) {
-            //selectedImageUri = uri
-            // currentInput = currentInput.copy(imageUri = uri)
-            viewModel.onImageSelected(uri)
+
+            chatViewModel.onImageSelected(uri)
 
             Log.d("PhotoPicker", "Selected URI: $uri")
         } else {
@@ -172,13 +136,6 @@ fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
 
                             is ChatMessage.AIMessage -> {
 
-                                /*
-                                if (message.showHealthCard) {
-                                    HealthReportCard()
-                                }
-                                */
-
-
                                 Column(
                                     modifier = Modifier
                                         .background(
@@ -237,7 +194,7 @@ fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
                     }
                     TextField(
                         value = currentInput.text ?: "",
-                        onValueChange = { viewModel.onTextChanged(it) },
+                        onValueChange = { chatViewModel.onTextChanged(it) },
                         modifier = Modifier.weight(1f),
                         placeholder = { Text("Type a message...") },
                         maxLines = 3,
@@ -255,57 +212,7 @@ fun ChatScreen(paddingValues: PaddingValues, viewModel: ChatViewModel) {
                     // Send User Input
                     IconButton(
                         onClick = {
-                            if (!currentInput.text.isNullOrBlank() || currentInput.imageUri != null) {
-
-
-                               // chatMessages.add(
-                                //    ChatMessage.UserMessage(
-                                 //       text = currentInput.text,
-                                  //      imageUri = currentInput.imageUri
-                                   // )
-                                //)
-
-                                viewModel.addMessage(ChatMessage.UserMessage(
-                                    text = currentInput.text,
-                                       imageUri = currentInput.imageUri
-                                ))
-
-                                // Store the text only message to send to LLM
-                                //val userText = currentInput.text ?: ""
-                                val userText = currentInput
-                                
-                                //Clear the Input
-                                viewModel.clearInput()
-
-                                // Actual AI Response
-
-                                sendMessageAI(
-                                    userMessageInput = userText,
-                                    apiKey = BuildConfig.OPENAI_API_KEY,
-                                    //AI message directly added to chat container
-                                    onResult = { aiReply ->
-                                        //chatMessages.add(ChatMessage.AIMessage(aiReply))
-                                        viewModel.addMessage(ChatMessage.AIMessage(aiReply))
-                                    },
-                                    onError = { error ->
-                                        //chatMessages.add(ChatMessage.AIMessage("Error: $error"))
-                                        viewModel.addMessage(ChatMessage.AIMessage("Error: $error"))
-                                    },
-                                    context = context
-                                )
-
-
-
-                                // Mock Response UI
-                                /*
-                                Handler(Looper.getMainLooper()).postDelayed({
-                                    chatMessages.add(ChatMessage.AIMessage(showHealthCard = true))
-                                }, 500)
-                            */
-
-
-
-                            }
+                            chatViewModel.sendMessage(context)
                         }
                     )
                     {
