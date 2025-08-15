@@ -15,4 +15,10 @@ Preventive Healthcare Android App
       <b>Chat Screen</b>
     </td>
   </tr>
+
+
 </table>
+
+### High Level System Diagram
+
+<img src="Docs/Proof-of-Work/High%20level%20System%20Architecture.drawio.svg" width="100%" alt="arc image"/>

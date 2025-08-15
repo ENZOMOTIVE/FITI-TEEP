@@ -31,7 +31,7 @@ import org.koin.core.context.GlobalContext
 
 
 class MainActivity : ComponentActivity() {
-    
+
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
