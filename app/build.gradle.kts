@@ -22,6 +22,7 @@ val localProperties = Properties().apply {
 val openAiKey = localProperties.getProperty("OPENAI_API_KEY") ?: ""
 
 
+
 android {
     namespace = "com.example.fiti_teep"
     compileSdk = 35
@@ -36,6 +37,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "OPENAI_API_KEY", "\"$openAiKey\"")
+
     }
 
 
