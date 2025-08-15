@@ -31,18 +31,7 @@ import org.koin.core.context.GlobalContext
 
 
 class MainActivity : ComponentActivity() {
-
-
-    // Koin injected web3Auth
-    private val web3Auth: Web3Auth by inject()
-
-    private lateinit var web3: Web3j
-
-
-    private lateinit var credentials: Credentials
-
-
-
+    
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,25 +40,10 @@ class MainActivity : ComponentActivity() {
 
 
 
-        // Handle user signing in when app is not alive
-        web3Auth.setResultUrl(intent?.data)
 
-        // Call initialize() in onCreate() to check for any existing session.
-        val sessionResponse: CompletableFuture<Void> = web3Auth.initialize()
 
-        sessionResponse.whenComplete { _, error ->
-            if (error == null) {
 
-                println("PrivKey: " + web3Auth.privkey)
-                println("ed25519PrivKey: " + web3Auth.ed25519PrivKey)
-                println("Web3Auth UserInfo" + web3Auth.userInfo)
-                credentials = Credentials.create(web3Auth.privkey)
-                web3 = Web3j.build(HttpService("https://1rpc.io/sepolia"))
-             } else {
-                Log.d("MainActivity_Web3Auth", error.message ?: "Something went wrong")
-                 //Ideally, you should initiate the login function here.
-            }
-        }
+
 
 
 

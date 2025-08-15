@@ -1,10 +1,13 @@
 package com.example.fiti_teep.koin_di.web3Auth
 
 import androidx.core.net.toUri
+import com.example.fiti_teep.ui.screens.chat.ChatViewModel
+import com.example.fiti_teep.ui.screens.login.LoginViewModel
 import com.web3auth.core.Web3Auth
 import com.web3auth.core.types.BuildEnv
 import com.web3auth.core.types.Network
 import com.web3auth.core.types.Web3AuthOptions
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val web3AuthModule = module {
@@ -43,4 +46,6 @@ val web3AuthModule = module {
             get()
         )
     }
+    viewModel { LoginViewModel(get()) }
+
 }
