@@ -46,6 +46,6 @@ val web3AuthModule = module {
             get()
         )
     }
-    viewModel { LoginViewModel(get()) }
+    viewModel{ LoginViewModel(get()) }
 
 }

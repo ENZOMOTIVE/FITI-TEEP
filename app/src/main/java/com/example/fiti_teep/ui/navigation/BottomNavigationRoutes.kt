@@ -31,7 +31,7 @@ val bottom_navigation_Items = listOf(
     BottomNavigationItem(
         title = "Account",
         icon = Icons.Filled.AccountCircle,
-        route = Routes.CHAT
+        route = Routes.ACCOUNT
     )
 
 )

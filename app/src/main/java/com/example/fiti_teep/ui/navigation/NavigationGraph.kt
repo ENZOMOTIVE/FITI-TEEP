@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.fiti_teep.ui.screens.chat.ChatScreen
 import com.example.fiti_teep.ui.screens.HomeScreen
-
+import com.example.fiti_teep.ui.screens.account.AccScreen
 
 
 @Composable
@@ -34,6 +34,11 @@ fun NavGraph(
 
         }
 
+        composable(Routes.ACCOUNT) {
+            AccScreen(
+                paddingValues
+            )
+        }
 
 
 

@@ -4,4 +4,6 @@ object Routes{
 
     const val HOME = "home";
     const val CHAT = "chatscreen";
+
+    const val ACCOUNT = "accountscreen"
 }
