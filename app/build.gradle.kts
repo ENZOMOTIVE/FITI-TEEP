@@ -88,6 +88,7 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.navigation.dynamic.features.fragment)
+    implementation("com.google.code.gson:gson:2.9.1")
 
     // Navigation Testing
     androidTestImplementation(libs.navigation.testing)
@@ -103,8 +104,8 @@ dependencies {
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
 
-    //Web3Auth
-    implementation("com.github.web3auth:web3auth-android-sdk:9.1.3")
+
+
     // Web3j
     implementation("org.web3j:core:4.8.7-android")
 
@@ -118,5 +119,7 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+
+
 
 }
