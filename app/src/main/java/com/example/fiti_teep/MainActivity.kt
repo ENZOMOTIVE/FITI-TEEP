@@ -44,6 +44,8 @@ import org.web3j.protocol.Web3j
 import org.web3j.protocol.http.HttpService
 import java.util.concurrent.CompletableFuture
 import androidx.core.net.toUri
+import com.web3auth.core.isEmailValid
+import com.web3auth.core.isPhoneNumberValid
 import com.web3auth.core.types.AuthConnectionConfig
 import com.web3auth.core.types.Language
 import com.web3auth.core.types.ThemeModes
@@ -58,7 +60,6 @@ class MainActivity : ComponentActivity() {
     private lateinit var web3Auth: Web3Auth
     private lateinit var web3: Web3j
     private lateinit var credentials: Credentials
-    private lateinit var emailInput: EditText
     private val rpcUrl = "https://1rpc.io/sepolia"
 
 
@@ -70,7 +71,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val authConfig = ArrayList<AuthConnectionConfig>()
 
 
         web3Auth = Web3Auth(
@@ -147,7 +147,8 @@ class MainActivity : ComponentActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
 
-                                signIn(email)
+                                //signIn(email)
+                                testsignIn(email)
                             },
                             enabled = email.isNotBlank(),
                             modifier = Modifier.fillMaxWidth()
@@ -198,6 +199,46 @@ class MainActivity : ComponentActivity() {
                 credentials = Credentials.create(web3Auth.getPrivateKey())
                 web3 = Web3j.build(HttpService(rpcUrl))
 
+            } else {
+                Log.d("MainActivity_Web3Auth", error.message ?: "Something went wrong")
+            }
+        }
+    }
+
+    private fun testsignIn(hintEmail: String) {
+        var loginHint: String? = null
+        val selectedLoginProvider = AuthConnection.EMAIL_PASSWORDLESS
+        if (selectedLoginProvider == AuthConnection.EMAIL_PASSWORDLESS) {
+            if (hintEmail.isBlank() || !hintEmail.isEmailValid()) {
+                Toast.makeText(this, "Please enter a valid Email.", Toast.LENGTH_LONG).show()
+                return
+            }
+            loginHint = hintEmail
+        }
+
+        if (selectedLoginProvider == AuthConnection.SMS_PASSWORDLESS) {
+            val hintPhNo = hintEmail
+            if (hintPhNo.isBlank() || !hintPhNo.isPhoneNumberValid()) {
+                Toast.makeText(this, "Please enter a valid Number.", Toast.LENGTH_LONG).show()
+                return
+            }
+            loginHint = hintPhNo
+        }
+
+        val loginCompletableFuture: CompletableFuture<Web3AuthResponse> = web3Auth.connectTo(
+            LoginParams(
+                selectedLoginProvider,
+                authConnectionId = "enzomotive",
+                //groupedAuthConnectionId = "aggregate-mobile",
+                loginHint = loginHint,
+            )
+        )
+        loginCompletableFuture.whenComplete { _, error ->
+            if (error == null) {
+
+                println("PrivKey: " + web3Auth.getPrivateKey())
+                println("ed25519PrivKey: " + web3Auth.getEd25519PrivateKey())
+                println("Web3Auth UserInfo" + web3Auth.getUserInfo())
             } else {
                 Log.d("MainActivity_Web3Auth", error.message ?: "Something went wrong")
             }
