@@ -3,6 +3,7 @@ package com.example.fiti_teep
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -36,6 +37,11 @@ class MainActivity : ComponentActivity() {
 
         val session: CompletableFuture<Void> = web3Auth.initialize()
 
+        session.whenComplete { _, _ ->
+            // Now it's safe to handle the intent
+            loginViewModel.redirectUri(intent?.data)
+        }
+
         setContent {
             FititeepTheme {
                 val navController = rememberNavController()
@@ -44,8 +50,9 @@ class MainActivity : ComponentActivity() {
 
 
                 //passing the intent to the viewmodel
-                loginViewModel.redirectUri(intent?.data)
-                 // passing the web3Initialize to the login view model
+               // loginViewModel.redirectUri(intent?.data)
+
+                // passing the web3Initialize to the login view model
                 loginViewModel.sessionCheck(session)
 
                 val isLoggedIn by loginViewModel.isLoggedIn.collectAsState()
@@ -72,5 +79,17 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         loginViewModel.redirectUri(intent?.data)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (Web3Auth.getCustomTabsClosed()) {
+            Toast.makeText(this, "User closed the browser.", Toast.LENGTH_SHORT).show()
+
+            //web3Auth.setResultUrl(null)
+            loginViewModel.redirectUri(null)
+
+            Web3Auth.setCustomTabsClosed(false)
+        }
     }
 }

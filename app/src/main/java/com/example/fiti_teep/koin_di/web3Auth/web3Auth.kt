@@ -19,7 +19,7 @@ val web3AuthModule = module {
                 // Blockchain Network
                 Network.SAPPHIRE_DEVNET,
                 // Production Enviorenment
-                BuildEnv.PRODUCTION,
+                BuildEnv.TESTING,
                 // Redirect Url : The Login Redirect Url
                 "com.example.fiti_teep://auth".toUri(),
                 // Web3Auth SDK URL

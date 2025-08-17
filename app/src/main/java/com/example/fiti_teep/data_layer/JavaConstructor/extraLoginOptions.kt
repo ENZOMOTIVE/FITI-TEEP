@@ -2,7 +2,7 @@ package com.example.fiti_teep.data_layer.JavaConstructor
 
 import com.web3auth.core.types.ExtraLoginOptions
 
-val extraLoginOptions = ExtraLoginOptions(
+val extraLoginOptionsJava = ExtraLoginOptions(
     null, // additionalParams
     null, // domain
     null, // client_id

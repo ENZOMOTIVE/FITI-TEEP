@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -21,15 +22,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = viewModel(),
+    viewModel: LoginViewModel = koinViewModel(),
     onLoginScreenSuccess: () -> Unit
 ) {
 
 
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
+    val EmailInput = remember {mutableStateOf("")}
 
     // Trigger navigation when logged in
     LaunchedEffect(isLoggedIn) {
@@ -37,7 +40,6 @@ fun LoginScreen(
             onLoginScreenSuccess()
         }
     }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,15 +47,27 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text("Welcome to Pawpulse")
-        Spacer(modifier = Modifier.height(1.dp)) // vertical space
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Email input field
+        OutlinedTextField(
+            value = EmailInput.value,
+            onValueChange = { EmailInput.value = it },
+            label = { Text("Email") },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Login button
         Button(
-            onClick = { viewModel.login() },
-            modifier = Modifier.fillMaxWidth()
+            onClick = { viewModel.signIn(EmailInput.value) }, // Pass email to ViewModel
+            modifier = Modifier.fillMaxWidth(),
+            enabled = EmailInput.value.isNotBlank()
         ) {
             Text("Login")
         }
     }
 }
-
-
