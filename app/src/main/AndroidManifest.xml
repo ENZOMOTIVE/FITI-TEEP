@@ -33,11 +33,14 @@
             <!-- This one handles Web3Auth redirect -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:scheme="com.example.fiti_teep"
-                    android:host="auth" />
+
+                <!-- // IMP START - Configure Deep Link -->
+                <!-- Accept URIs: {YOUR_APP_PACKAGE_NAME}://* -->
+                <data android:scheme="fitiapp" android:host="auth" />
+                <!-- // IMP END - Configure Deep Link -->
             </intent-filter>
 
         </activity>

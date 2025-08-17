@@ -106,9 +106,6 @@ dependencies {
 
 
 
-    // Web3j
-    implementation("org.web3j:core:4.8.7-android")
-
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:34.1.0"))
 
@@ -119,6 +116,11 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+
+    // Web3Auth
+    implementation("com.github.web3auth:web3auth-android-sdk:10.0.0")
+    //Web3j
+    implementation("org.web3j:core:4.8.7-android")
 
 
 
