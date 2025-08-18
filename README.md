@@ -6,13 +6,16 @@ Preventive Healthcare Android App
 
 <table align="center">
   <tr>
-    <td align="center">
-      <img src="Docs/Proof-of-Work/HomeScreen.png" alt="Home Screen" width="200"/><br/>
-      <b>Home Screen</b>
+
+ <td align="center">
+      <img src="Docs/Proof-of-Work/Screenshots/AccountScreen-19.png" alt="Home Screen" width="200"/><br/>
+      <b>Login Screen</b>
     </td>
 
+    
+
    <td align="center">
-      <img src="Docs/Proof-of-Work/Screenshots/AccountScreen-19.png" alt="Home Screen" width="200"/><br/>
+      <img src="Docs/Proof-of-Work/HomeScreen.png" alt="Home Screen" width="200"/><br/>
       <b>Login Screen</b>
     </td>
   
@@ -29,7 +32,7 @@ Preventive Healthcare Android App
     </td>
 
   <td align="center">
-      <img src="Docs/Proof-of-Work/Screenshots/AccountScreen-19.png" alt="Chat Screen" width="200"/><br/>
+      <img src="Docs/Proof-of-Work/Screenshots/AccountScreen.png" alt="Chat Screen" width="200"/><br/>
       <b>Chat Screen</b>
     </td>
  
