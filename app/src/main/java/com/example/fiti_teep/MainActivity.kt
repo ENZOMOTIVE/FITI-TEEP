@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
     private val rpcUrl = "https://1rpc.io/sepolia"
 
 
-
+    private val isLoggedIn = mutableStateOf(false)
 
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -106,6 +106,7 @@ class MainActivity : ComponentActivity() {
                 println("Web3Auth UserInfo" + web3Auth.getUserInfo())
                 credentials = Credentials.create(web3Auth.getPrivateKey())
                 web3 = Web3j.build(HttpService(rpcUrl))
+                isLoggedIn.value = true
             } else {
                 Log.d("MainActivity_Web3Auth", error.message ?: "Something went wrong")
                 // Ideally, you should initiate the login function here.
@@ -116,52 +117,60 @@ class MainActivity : ComponentActivity() {
         setContent {
             FititeepTheme {
 
+                val navController = rememberNavController()
+
 
                 var email by rememberSaveable { mutableStateOf("") }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                if(isLoggedIn.value){
+                    Pawpulse(navController)
+                }
+                else {
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        OutlinedTextField(
-                            value = email,
-                            onValueChange = { email = it },
-                            label = { Text("Email") },
-                            placeholder = { Text("you@example.com") },
-                            singleLine = true,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        Button(
-                            onClick = {
-                                Toast.makeText(
-                                    this@MainActivity,
-                                    "Logging in with: $email",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                                //signIn(email)
-                                testsignIn(email)
-                            },
-                            enabled = email.isNotBlank(),
-                            modifier = Modifier.fillMaxWidth()
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text("Login")
-                        }
+                            OutlinedTextField(
+                                value = email,
+                                onValueChange = { email = it },
+                                label = { Text("Email") },
+                                placeholder = { Text("you@example.com") },
+                                singleLine = true,
+                                modifier = Modifier.fillMaxWidth()
+                            )
 
+                            Button(
+                                onClick = {
+                                    Toast.makeText(
+                                        this@MainActivity,
+                                        "Logging in with: $email",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                    //signIn(email)
+                                    signIn(email)
+                                },
+                                enabled = email.isNotBlank(),
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text("Login")
+                            }
+
+                        }
                     }
+
                 }
 
-
-
             }
+
         }
 
     }
@@ -183,29 +192,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun signIn( email: String) {
 
-        // IMP START - Login
-        val selectedLoginProvider = AuthConnection.EMAIL_PASSWORDLESS  // Can be GOOGLE, FACEBOOK, TWITCH etc.
-        val loginParams = LoginParams(selectedLoginProvider, extraLoginOptions = ExtraLoginOptions(login_hint = email))
-        val loginCompletableFuture: CompletableFuture<Web3AuthResponse> =
-            web3Auth.connectTo(loginParams)
-        // IMP END - Login
 
-        loginCompletableFuture.whenComplete { _, error ->
-            if (error == null) {
-                // Set the sessionId from Web3Auth in App State
-                // This will be used when making blockchain calls with Web3j
-                credentials = Credentials.create(web3Auth.getPrivateKey())
-                web3 = Web3j.build(HttpService(rpcUrl))
-
-            } else {
-                Log.d("MainActivity_Web3Auth", error.message ?: "Something went wrong")
-            }
-        }
-    }
-
-    private fun testsignIn(hintEmail: String) {
+    private fun signIn(hintEmail: String) {
         var loginHint: String? = null
         val selectedLoginProvider = AuthConnection.EMAIL_PASSWORDLESS
         if (selectedLoginProvider == AuthConnection.EMAIL_PASSWORDLESS) {
@@ -216,14 +205,7 @@ class MainActivity : ComponentActivity() {
             loginHint = hintEmail
         }
 
-        if (selectedLoginProvider == AuthConnection.SMS_PASSWORDLESS) {
-            val hintPhNo = hintEmail
-            if (hintPhNo.isBlank() || !hintPhNo.isPhoneNumberValid()) {
-                Toast.makeText(this, "Please enter a valid Number.", Toast.LENGTH_LONG).show()
-                return
-            }
-            loginHint = hintPhNo
-        }
+
 
         val loginCompletableFuture: CompletableFuture<Web3AuthResponse> = web3Auth.connectTo(
             LoginParams(
@@ -239,6 +221,13 @@ class MainActivity : ComponentActivity() {
                 println("PrivKey: " + web3Auth.getPrivateKey())
                 println("ed25519PrivKey: " + web3Auth.getEd25519PrivateKey())
                 println("Web3Auth UserInfo" + web3Auth.getUserInfo())
+
+                credentials = Credentials.create(web3Auth.getPrivateKey())
+                web3 = Web3j.build(HttpService(rpcUrl))
+
+                runOnUiThread {
+                    isLoggedIn.value = true
+                }
             } else {
                 Log.d("MainActivity_Web3Auth", error.message ?: "Something went wrong")
             }
