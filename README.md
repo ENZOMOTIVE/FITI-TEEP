@@ -28,11 +28,12 @@ Preventive Healthcare Android App
       <b>Chat Screen</b>
     </td>
 
- 
-    <td align="center">
-      <img src="Docs/Proof-of-Work/Screenshots/AccountScreen.png" alt="Chat Screen" width="200"/><br/>
-      <b>Account Screen</b>
+  <td align="center">
+      <img src="Docs/Proof-of-Work/Screenshots/AccountScreen-19.png" alt="Chat Screen" width="200"/><br/>
+      <b>Chat Screen</b>
     </td>
+ 
+    
 
   </tr>
 
