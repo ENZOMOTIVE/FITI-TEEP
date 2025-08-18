@@ -29,12 +29,13 @@ import com.example.fiti_teep.ui.components.sideBar.DrawerContent
 import com.example.fiti_teep.ui.navigation.NavGraph
 import com.example.fiti_teep.ui.navigation.bottom_navigation_Items
 import com.example.fiti_teep.ui.screens.notification.NotificationDropdown
+import com.web3auth.core.Web3Auth
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Pawpulse(navController: NavHostController) {
+fun Pawpulse(navController: NavHostController, web3Auth: Web3Auth) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
@@ -96,7 +97,7 @@ fun Pawpulse(navController: NavHostController) {
         )
 
         { paddingValues ->
-            NavGraph(navController = navController, paddingValues = paddingValues)
+            NavGraph(navController = navController, paddingValues = paddingValues, web3Authinstance = web3Auth)
 
         }
     }

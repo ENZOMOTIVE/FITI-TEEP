@@ -1,10 +1,8 @@
 package com.example.fiti_teep
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,9 +13,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,33 +20,21 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+
 import androidx.navigation.compose.rememberNavController
-import com.example.fiti_teep.ui.screens.login.LoginScreen
-import com.example.fiti_teep.ui.screens.login.LoginViewModel
 import com.example.fiti_teep.ui.theme.FititeepTheme
 import com.web3auth.core.Web3Auth
 import com.web3auth.core.types.BuildEnv
-import com.web3auth.core.types.ExtraLoginOptions
 import com.web3auth.core.types.LoginParams
-
 import com.web3auth.core.types.Web3AuthOptions
 import com.web3auth.core.types.Web3AuthResponse
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.http.HttpService
 import java.util.concurrent.CompletableFuture
-import androidx.core.net.toUri
 import com.web3auth.core.isEmailValid
-import com.web3auth.core.isPhoneNumberValid
 import com.web3auth.core.types.AuthConnectionConfig
-import com.web3auth.core.types.Language
-import com.web3auth.core.types.ThemeModes
-
-import com.web3auth.core.types.WalletServicesConfig
-import com.web3auth.core.types.WhiteLabelData
 import org.torusresearch.fetchnodedetails.types.Web3AuthNetwork
 import com.web3auth.core.types.AuthConnection
 
@@ -64,6 +47,7 @@ class MainActivity : ComponentActivity() {
 
 
     private val isLoggedIn = mutableStateOf(false)
+
 
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -107,6 +91,7 @@ class MainActivity : ComponentActivity() {
                 credentials = Credentials.create(web3Auth.getPrivateKey())
                 web3 = Web3j.build(HttpService(rpcUrl))
                 isLoggedIn.value = true
+
             } else {
                 Log.d("MainActivity_Web3Auth", error.message ?: "Something went wrong")
                 // Ideally, you should initiate the login function here.
@@ -123,7 +108,7 @@ class MainActivity : ComponentActivity() {
                 var email by rememberSaveable { mutableStateOf("") }
 
                 if(isLoggedIn.value){
-                    Pawpulse(navController)
+                    Pawpulse(navController, web3Auth)
                 }
                 else {
 
@@ -194,6 +179,7 @@ class MainActivity : ComponentActivity() {
 
 
 
+    // Email PasswordLess
     private fun signIn(hintEmail: String) {
         var loginHint: String? = null
         val selectedLoginProvider = AuthConnection.EMAIL_PASSWORDLESS
@@ -222,11 +208,15 @@ class MainActivity : ComponentActivity() {
                 println("ed25519PrivKey: " + web3Auth.getEd25519PrivateKey())
                 println("Web3Auth UserInfo" + web3Auth.getUserInfo())
 
+                // Credential Creation for the first time users
                 credentials = Credentials.create(web3Auth.getPrivateKey())
                 web3 = Web3j.build(HttpService(rpcUrl))
 
+
+                // Checker to take Users to Pawpulse()
                 runOnUiThread {
                     isLoggedIn.value = true
+
                 }
             } else {
                 Log.d("MainActivity_Web3Auth", error.message ?: "Something went wrong")

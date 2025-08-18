@@ -10,10 +10,30 @@ Preventive Healthcare Android App
       <img src="Docs/Proof-of-Work/HomeScreen.png" alt="Home Screen" width="200"/><br/>
       <b>Home Screen</b>
     </td>
-    <td align="center">
+
+   <td align="center">
+      <img src="Docs/Proof-of-Work/Screenshots/AccountScreen-19.png" alt="Home Screen" width="200"/><br/>
+      <b>Login Screen</b>
+    </td>
+  
+  </tr>
+
+
+</table>
+
+<table align="center">
+  <tr>
+  <td align="center">
       <img src="Docs/Proof-of-Work/ChatScreen.png" alt="Chat Screen" width="200"/><br/>
       <b>Chat Screen</b>
     </td>
+
+ 
+    <td align="center">
+      <img src="Docs/Proof-of-Work/Screenshots/AccountScreen.png" alt="Chat Screen" width="200"/><br/>
+      <b>Account Screen</b>
+    </td>
+
   </tr>
 
 

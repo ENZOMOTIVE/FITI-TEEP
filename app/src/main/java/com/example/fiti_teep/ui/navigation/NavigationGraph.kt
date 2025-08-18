@@ -8,14 +8,16 @@ import androidx.navigation.compose.composable
 import com.example.fiti_teep.ui.screens.chat.ChatScreen
 import com.example.fiti_teep.ui.screens.HomeScreen
 import com.example.fiti_teep.ui.screens.account.AccScreen
+import com.web3auth.core.Web3Auth
 
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
     paddingValues: PaddingValues,
+    web3Authinstance: Web3Auth,
 
-){
+    ){
 
     NavHost(
         navController = navController,
@@ -36,7 +38,8 @@ fun NavGraph(
 
         composable(Routes.ACCOUNT) {
             AccScreen(
-                paddingValues
+                paddingValues,
+                web3Authinstance
             )
         }
 
