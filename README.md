@@ -1,7 +1,6 @@
 ## Android Version of the PetCare App
 
-Preventive Healthcare Android App
-
+PawPulse is an Android application that combines AI-driven preventive pet healthcare with seamless Web3 wallet integration to create a smart, user-friendly platform for pet owners. The app simplifies access to AI health insights while enabling blockchain-powered features like identity and future asset management, all without requiring users to understand Web3 complexities.
 ### Screenshots
 
 <table align="center">
@@ -16,7 +15,7 @@ Preventive Healthcare Android App
 
    <td align="center">
       <img src="Docs/Proof-of-Work/HomeScreen.png" alt="Home Screen" width="200"/><br/>
-      <b>Login Screen</b>
+      <b>Home Screen</b>
     </td>
   
   </tr>
@@ -33,7 +32,7 @@ Preventive Healthcare Android App
 
   <td align="center">
       <img src="Docs/Proof-of-Work/Screenshots/AccountScreen.png" alt="Chat Screen" width="200"/><br/>
-      <b>Chat Screen</b>
+      <b>Account Screen</b>
     </td>
  
     

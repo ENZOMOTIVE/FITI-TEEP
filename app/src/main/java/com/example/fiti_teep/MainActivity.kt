@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,15 +15,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 import androidx.navigation.compose.rememberNavController
+import com.example.fiti_teep.ui.components.VideoLoader
 import com.example.fiti_teep.ui.theme.FititeepTheme
 import com.web3auth.core.Web3Auth
 import com.web3auth.core.types.BuildEnv
@@ -44,6 +48,9 @@ class MainActivity : ComponentActivity() {
     private lateinit var web3: Web3j
     private lateinit var credentials: Credentials
     private val rpcUrl = "https://1rpc.io/sepolia"
+
+    private val isLoading = mutableStateOf(true)
+
 
 
     private val isLoggedIn = mutableStateOf(false)
@@ -84,10 +91,6 @@ class MainActivity : ComponentActivity() {
         val sessionResponse: CompletableFuture<Void> = web3Auth.initialize()
         sessionResponse.whenComplete { _, error ->
             if (error == null) {
-
-                println("PrivKey: " + web3Auth.getPrivateKey())
-                println("ed25519PrivKey: " + web3Auth.getEd25519PrivateKey())
-                println("Web3Auth UserInfo" + web3Auth.getUserInfo())
                 credentials = Credentials.create(web3Auth.getPrivateKey())
                 web3 = Web3j.build(HttpService(rpcUrl))
                 isLoggedIn.value = true
@@ -96,67 +99,85 @@ class MainActivity : ComponentActivity() {
                 Log.d("MainActivity_Web3Auth", error.message ?: "Something went wrong")
                 // Ideally, you should initiate the login function here.
             }
+            isLoading.value = false
+
         }
 
 
         setContent {
             FititeepTheme {
-
                 val navController = rememberNavController()
-
 
                 var email by rememberSaveable { mutableStateOf("") }
 
-                if(isLoggedIn.value){
-                    Pawpulse(navController, web3Auth)
-                }
-                else {
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy(12.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            OutlinedTextField(
-                                value = email,
-                                onValueChange = { email = it },
-                                label = { Text("Email") },
-                                placeholder = { Text("you@example.com") },
-                                singleLine = true,
-                                modifier = Modifier.fillMaxWidth()
-                            )
 
-                            Button(
-                                onClick = {
-                                    Toast.makeText(
-                                        this@MainActivity,
-                                        "Logging in with: $email",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-
-                                    //signIn(email)
-                                    signIn(email)
-                                },
-                                enabled = email.isNotBlank(),
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Text("Login")
-                            }
-
+                when {
+                    // 1. Show loader first
+                    isLoading.value -> {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.White),
+                        ){
+                            VideoLoader()
                         }
+
+
+
                     }
 
+                    // 2. If logged in, show Pawpulse
+                    isLoggedIn.value -> {
+                        Pawpulse(navController, web3Auth)
+                    }
+
+                    // 3. Else, show Login screen
+                    else -> {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalArrangement = Arrangement.spacedBy(12.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                OutlinedTextField(
+                                    value = email,
+                                    onValueChange = { email = it },
+                                    label = { Text("Email") },
+                                    placeholder = { Text("you@example.com") },
+                                    singleLine = true,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+
+                                Button(
+                                    onClick = {
+                                        Toast.makeText(
+                                            this@MainActivity,
+                                            "Logging in with: $email",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+
+                                        // Show loader while login is happening
+                                        isLoading.value = true
+                                        signIn(email)
+                                    },
+                                    enabled = email.isNotBlank(),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Login")
+                                }
+                            }
+                        }
+                    }
                 }
-
             }
-
         }
+
 
     }
 
@@ -204,10 +225,6 @@ class MainActivity : ComponentActivity() {
         loginCompletableFuture.whenComplete { _, error ->
             if (error == null) {
 
-                println("PrivKey: " + web3Auth.getPrivateKey())
-                println("ed25519PrivKey: " + web3Auth.getEd25519PrivateKey())
-                println("Web3Auth UserInfo" + web3Auth.getUserInfo())
-
                 // Credential Creation for the first time users
                 credentials = Credentials.create(web3Auth.getPrivateKey())
                 web3 = Web3j.build(HttpService(rpcUrl))
@@ -221,6 +238,8 @@ class MainActivity : ComponentActivity() {
             } else {
                 Log.d("MainActivity_Web3Auth", error.message ?: "Something went wrong")
             }
+            isLoading.value = false
+
         }
     }
 

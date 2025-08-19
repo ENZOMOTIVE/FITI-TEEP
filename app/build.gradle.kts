@@ -122,6 +122,8 @@ dependencies {
     //Web3j
     implementation("org.web3j:core:4.8.7-android")
 
-
+    // Exoplayer to handle videos
+    implementation("androidx.media3:media3-exoplayer:1.3.1")
+    implementation("androidx.media3:media3-ui:1.3.1")
 
 }
